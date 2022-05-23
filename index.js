@@ -49,7 +49,7 @@ async function run() {
 
         // my Collection api
         app.get("/MyItems", async (req, res) => {
-            const email = req.query;
+            const email = req.query.email;
             const query = { email: email };
             const cursor = myCollection.find(query);
             const items = await cursor.toArray();
@@ -60,6 +60,13 @@ async function run() {
             const result = await myCollection.insertOne(MyItems);
             res.send(result);
         })
+
+        app.delete('/MyItems/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await myCollection.deleteOne(query);
+            res.send(result);
+        });
     }
     finally {
 
