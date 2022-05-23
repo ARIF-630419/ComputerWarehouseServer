@@ -17,6 +17,7 @@ async function run() {
     try {
         await client.connect();
         const storeCollection = client.db("computer-warehouse").collection("store");
+        const myCollection = client.db("computer-warehouse").collection("MyItems");
         app.get("/inventory", async (req, res) => {
             const query = {};
             const cursor = storeCollection.find(query);
@@ -45,6 +46,13 @@ async function run() {
             const result = await storeCollection.deleteOne(query);
             res.send(result);
         });
+
+        // my Collection api
+        app.post('/MyItems', async (req, res) => {
+            const MyItems = req.body;
+            const result = await myCollection.insertOne(MyItems);
+            res.send(result);
+        })
     }
     finally {
 
