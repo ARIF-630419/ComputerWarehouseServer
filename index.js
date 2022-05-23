@@ -48,6 +48,13 @@ async function run() {
         });
 
         // my Collection api
+        app.get("/MyItems", async (req, res) => {
+            const email = req.query;
+            const query = { email: email };
+            const cursor = myCollection.find(query);
+            const items = await cursor.toArray();
+            res.send(items);
+        })
         app.post('/MyItems', async (req, res) => {
             const MyItems = req.body;
             const result = await myCollection.insertOne(MyItems);
